@@ -1,6 +1,6 @@
 # dockompiler
 
-Develop lightweight applications in C, C++, or C# with ease using Docker and cross-compilation with MinGW and Mono, providing an efficient and streamlined alternative to more feature-rich development environments like VS Code.
+A lightweight Docker-based compiler wrapper for building Windows executables in C, C++, or C# allows developers to create applications easily, using cross-compilation with MinGW and Mono, offering an efficient alternative to more feature-rich environments like VS Code.
 
 ## Prerequisites
 ```
@@ -9,17 +9,27 @@ cd dockompiler
 docker build -t dockompiler .
 ```
 
-## Compile a C# app
+## Generic Compilation
 ```
-docker run --rm -v ${PWD}:/app -w /app dockompiler mcs -r:System.Windows.Forms -r:System.Drawing main.cs
-```
-
-## Compile a C app
-```
-docker run --rm -v ${PWD}:/app -w /app dockompiler /usr/bin/x86_64-w64-mingw32-gcc main.c -o main2.exe
+docker run --rm -v ${PWD}:/app dockompiler compile-c   examples/main.c   c-app.exe
+docker run --rm -v ${PWD}:/app dockompiler compile-cpp examples/main.cpp cpp-app.exe
+docker run --rm -v ${PWD}:/app dockompiler compile-cs  examples/main.cs  cs-app.exe
 ```
 
-## Compile a C++ app
+## Usergroup Command
+Generate a Windows executable that will create or update a user using compile-time values:
 ```
-docker run --rm -v ${PWD}:/app -w /app dockompiler /usr/bin/x86_64-w64-mingw32-g++ main.cpp -o main3.exe
+docker run --rm -v .:/app dockompiler usergroup -u <username> [-p <password>] -g <groupname> [-o usergroup.exe]
+```
+
+### Examples:
+
+Create a new user and add to Administrators
+```
+docker run --rm -v ${PWD}:/app dockompiler usergroup -u test -p Password1 -g Administrators
+```
+
+Add an existing user to a group
+```
+docker run --rm -v .:/app dockompiler usergroup -u test -g "Remote Desktop Users"
 ```
