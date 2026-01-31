@@ -90,10 +90,13 @@ compile_c() {
 
     SOURCE="$1"
     OUTPUT="${2:-${SOURCE%.c}.exe}"
+    shift 2
+    EXTRA_FLAGS=("$@")
+
     [ ! -f "/app/$SOURCE" ] && { echo "Error: File not found"; exit 1; }
 
     echo "Compiling C: $SOURCE -> $OUTPUT"
-    /usr/bin/x86_64-w64-mingw32-gcc /app/$SOURCE -o /app/$OUTPUT -static-libgcc
+    /usr/bin/x86_64-w64-mingw32-gcc /app/"$SOURCE" -o /app/"$OUTPUT" "${EXTRA_FLAGS[@]}" -static-libgcc
     [ $? -eq 0 ] && echo "✓ Success" || { echo "✗ Failed"; exit 1; }
 }
 
@@ -103,10 +106,13 @@ compile_cpp() {
 
     SOURCE="$1"
     OUTPUT="${2:-${SOURCE%.cpp}.exe}"
+    shift 2
+    EXTRA_FLAGS=("$@")
+
     [ ! -f "/app/$SOURCE" ] && { echo "Error: File not found"; exit 1; }
 
     echo "Compiling C++: $SOURCE -> $OUTPUT"
-    /usr/bin/x86_64-w64-mingw32-g++ /app/$SOURCE -o /app/$OUTPUT -static-libgcc -static-libstdc++
+    /usr/bin/x86_64-w64-mingw32-g++ /app/"$SOURCE" -o /app/"$OUTPUT" "${EXTRA_FLAGS[@]}" -static-libgcc -static-libstdc++
     [ $? -eq 0 ] && echo "✓ Success" || { echo "✗ Failed"; exit 1; }
 }
 
@@ -116,10 +122,13 @@ compile_cs() {
 
     SOURCE="$1"
     OUTPUT="${2:-${SOURCE%.cs}.exe}"
+    shift 2
+    EXTRA_FLAGS=("$@")
+
     [ ! -f "/app/$SOURCE" ] && { echo "Error: File not found"; exit 1; }
 
     echo "Compiling C#: $SOURCE -> $OUTPUT"
-    mcs -r:System.Windows.Forms -r:System.Drawing /app/$SOURCE -out:/app/$OUTPUT
+    mcs -r:System.Windows.Forms -r:System.Drawing /app/"$SOURCE" -out:/app/"$OUTPUT" "${EXTRA_FLAGS[@]}"
     [ $? -eq 0 ] && echo "✓ Success" || { echo "✗ Failed"; exit 1; }
 }
 
