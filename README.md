@@ -3,6 +3,16 @@
 A lightweight Docker-based compiler wrapper for building Windows executables in C, C++, or C# allows developers to create applications easily, using cross-compilation with MinGW and Mono, offering an efficient alternative to more feature-rich environments like VS Code.
 
 ## Prerequisites
+ 
+A prebuilt image is available on Docker Hub: https://hub.docker.com/r/cobblepot59/dockompiler
+ 
+You can either pull it directly:
+```
+docker pull cobblepot59/dockompiler
+docker tag cobblepot59/dockompiler dockompiler
+```
+ 
+Or build it yourself from source:
 ```
 git clone https://github.com/CobblePot59/dockompiler.git
 cd dockompiler
